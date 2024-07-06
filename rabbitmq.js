@@ -6,8 +6,12 @@ class RabbitMQService {
     this.channel = null;
   }
   async connect() {
-    this.connection = await amqp.connect("amqp://admin:admin@localhost:5672");
-    this.channel = await this.connection.createChannel();
+    try {
+      this.connection = await amqp.connect("amqp://admin:admin@localhost:5672");
+      this.channel = await this.connection.createChannel();
+    } catch (error) {
+      console.log("Connection failed");
+    }
   }
 
   async publish(exchange, message) {
